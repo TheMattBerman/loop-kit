@@ -1,0 +1,38 @@
+[
+  {
+    "id": "onboard-bad-loop",
+    "kind": "onboard",
+    "input": "Send emails to all customers until they are satisfied",
+    "must_include": ["vague_done", "unsafe_external_action", "Do not build as written"],
+    "must_not_include": ["PASS"]
+  },
+  {
+    "id": "onboard-review-queue",
+    "kind": "onboard",
+    "input": "Review and approve draft content from client docs before publish",
+    "must_include": ["Review Queue Loop", "R1 read-only review", "approve"],
+    "must_not_include": ["Do not build as written"]
+  },
+  {
+    "id": "judge-strong-pass",
+    "kind": "judge",
+    "spec": {
+      "done_criteria": "All items in the review queue have a status of approved or rejected",
+      "verification_method": "Count items with pending status equals zero",
+      "source_of_truth": "shared/library/loop-index.json",
+      "approval_boundary": "Human must approve any item before it is marked approved"
+    },
+    "expect_verdict": "PASS"
+  },
+  {
+    "id": "judge-missing-done",
+    "kind": "judge",
+    "spec": {
+      "done_criteria": "",
+      "verification_method": "run tests",
+      "source_of_truth": "repo",
+      "approval_boundary": "human"
+    },
+    "expect_verdict": "FAIL"
+  }
+]

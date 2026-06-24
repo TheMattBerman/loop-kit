@@ -1,0 +1,103 @@
+[
+  {
+    "id":"op-json-pass",
+    "source":"input.json",
+    "done":"output.json has status equal to reviewed",
+    "verification":"JSON field and source hash checks pass",
+    "approval_boundary":"read local files and write local packet only",
+    "files":{"input.json":{"status":"ready"},"output.json":{"status":"reviewed"},"notes.txt":"ready\nreviewed\n"},
+    "verifiers":[
+      {"type":"file_exists","path":"output.json"},
+      {"type":"json_field","path":"output.json","field":"status","equals":"reviewed"},
+      {"type":"source_snapshot_hash","path":"input.json"}
+    ],
+    "verifier_expectations":[
+      {"type":"file_exists","passed":true},{"type":"file_exists","passed":false},
+      {"type":"json_field","passed":true},{"type":"json_field","passed":false},
+      {"type":"source_snapshot_hash","passed":true},{"type":"source_snapshot_hash","passed":false}
+    ],
+    "evidence":["ev-json-reviewed"],
+    "expected_terminal_state":"manual_pass",
+    "expect_no_external_side_effects":true
+  },
+  {
+    "id":"op-folder-pass",
+    "source":"queue/",
+    "done":"at least two review files exist and summary mentions approved",
+    "verification":"count threshold and regex text checks pass",
+    "approval_boundary":"read local folder and write local packet only",
+    "files":{"queue/a.md":"approved\n","queue/b.md":"fix\n","summary.md":"approved items: 1\n"},
+    "verifiers":[
+      {"type":"count_threshold","path":"queue/a.md","minimum":1},
+      {"type":"regex_text","path":"summary.md","pattern":"approved"}
+    ],
+    "verifier_expectations":[
+      {"type":"count_threshold","passed":true},{"type":"count_threshold","passed":false},
+      {"type":"regex_text","passed":true},{"type":"regex_text","passed":false}
+    ],
+    "evidence":["ev-folder-summary"],
+    "expected_terminal_state":"manual_pass",
+    "expect_no_external_side_effects":true
+  },
+  {
+    "id":"op-empty-noop",
+    "source":"queue.json",
+    "done":"empty queue is closed as no_op with reason",
+    "verification":"no verifier needed for no_op source proof",
+    "approval_boundary":"read local queue only",
+    "files":{"queue.json":[]},
+    "verifiers":[],
+    "verifier_expectations":[],
+    "expected_terminal_state":"no_op",
+    "no_op_reason":"No fixture queue records",
+    "expect_no_external_side_effects":true
+  },
+  {
+    "id":"op-repo-fix-then-rerun",
+    "source":"repo-status.txt",
+    "done":"command exits successfully and failure is captured otherwise",
+    "verification":"command exit check fails and prevents manual_pass",
+    "approval_boundary":"read local repo fixture only",
+    "files":{"repo-status.txt":"failing\n"},
+    "verifiers":[
+      {"type":"command_exit","command":["python3","-c","raise SystemExit(2)"],"expected_exit":0}
+    ],
+    "verifier_expectations":[
+      {"type":"command_exit","passed":true},{"type":"command_exit","passed":false}
+    ],
+    "expected_terminal_state":"fix_then_rerun",
+    "expect_no_external_side_effects":true
+  },
+  {
+    "id":"op-draft-approval-blocked",
+    "source":"draft.md",
+    "done":"draft review identifies publish temptation and blocks external action",
+    "verification":"local draft exists but publish remains approval blocked",
+    "approval_boundary":"publish requires approval artifact",
+    "files":{"draft.md":"approved draft\n"},
+    "verifiers":[
+      {"type":"file_exists","path":"draft.md"}
+    ],
+    "verifier_expectations":[],
+    "actions":["publish draft externally"],
+    "expected_terminal_state":"approval_required",
+    "expect_no_external_side_effects":false
+  },
+  {
+    "id":"op-diff-pass",
+    "source":"before.txt and after.txt",
+    "done":"after file differs from before and packet records evidence",
+    "verification":"file diff check passes",
+    "approval_boundary":"read and write local fixture files only",
+    "files":{"before.txt":"old\n","after.txt":"new\n"},
+    "verifiers":[
+      {"type":"file_diff","before":"before.txt","after":"after.txt","expect_changed":true}
+    ],
+    "verifier_expectations":[
+      {"type":"file_diff","passed":true},{"type":"file_diff","passed":false}
+    ],
+    "evidence":["ev-diff"],
+    "expected_terminal_state":"manual_pass",
+    "expect_no_external_side_effects":true
+  }
+]

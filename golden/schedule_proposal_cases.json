@@ -1,0 +1,73 @@
+[
+  {
+    "id": "proposal-001-ready",
+    "profile": {"loop_id": "proposal-ready", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on verifier failure", "rollback_plan": "restore previous local output", "no_op_behavior": "write no_op reason and source proof", "review_cadence": "weekly", "monitor_plan": "local ledger review only", "budget_cost_guard": "pause above 10 minutes", "maker_checker_review_passed": true},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "proposal-ready", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "proposal-ready", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "proposal-ready", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "proposal-ready", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "expected_valid": true
+  },
+  {
+    "id": "proposal-002-missing-owner",
+    "profile": {"loop_id": "proposal-no-owner", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "", "stop_condition": "pause on verifier failure", "rollback_plan": "restore previous local output", "no_op_behavior": "write no_op reason and source proof", "review_cadence": "weekly", "monitor_plan": "local ledger review only", "budget_cost_guard": "pause above 10 minutes"},
+    "acceptance_records": [{"run_id": "run-1", "loop_id": "proposal-no-owner", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]}],
+    "cost_records": [{"run_id": "run-1", "loop_id": "proposal-no-owner", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "expected_valid": false,
+    "expected_failure_contains": "missing:owner"
+  },
+  {
+    "id": "proposal-003-stale",
+    "profile": {"loop_id": "proposal-stale", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on verifier failure", "rollback_plan": "restore previous local output", "no_op_behavior": "write no_op reason and source proof", "review_cadence": "weekly", "monitor_plan": "local ledger review only", "budget_cost_guard": "pause above 10 minutes"},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "proposal-stale", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "proposal-stale", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "proposal-stale", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "proposal-stale", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "mutate_proposal": {"expires_at": "2026-06-01T00:00:00+00:00"},
+    "expected_valid": false,
+    "expected_failure_contains": "proposal expired"
+  },
+  {
+    "id": "proposal-004-below-threshold",
+    "profile": {"loop_id": "proposal-low-rate", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on verifier failure", "rollback_plan": "restore previous local output", "no_op_behavior": "write no_op reason and source proof", "review_cadence": "weekly", "monitor_plan": "local ledger review only", "budget_cost_guard": "pause above 10 minutes"},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "proposal-low-rate", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "proposal-low-rate", "terminal_state": "manual_pass", "accepted": false, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "proposal-low-rate", "terminal_state": "manual_pass", "accepted": false, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "proposal-low-rate", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "mutate_proposal": {"recommendation": "safe_to_consider_scheduling"},
+    "expected_valid": false,
+    "expected_failure_contains": "acceptance rate below threshold"
+  },
+  {
+    "id": "proposal-005-creates-schedule",
+    "profile": {"loop_id": "proposal-creates", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on verifier failure", "rollback_plan": "restore previous local output", "no_op_behavior": "write no_op reason and source proof", "review_cadence": "weekly", "monitor_plan": "local ledger review only", "budget_cost_guard": "pause above 10 minutes"},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "proposal-creates", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "proposal-creates", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "proposal-creates", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "proposal-creates", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "mutate_proposal": {"creates_schedule": true},
+    "expected_valid": false,
+    "expected_failure_contains": "proposal must not create a schedule"
+  },
+  {
+    "id": "proposal-006-high-risk-no-approval",
+    "profile": {"loop_id": "proposal-high-risk", "risk_level": "high", "external_actions": true, "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on verifier failure", "rollback_plan": "restore previous local output", "no_op_behavior": "write no_op reason and source proof", "review_cadence": "weekly", "monitor_plan": "local ledger review only", "budget_cost_guard": "pause above 10 minutes", "maker_checker_review_passed": true},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "proposal-high-risk", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "proposal-high-risk", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "proposal-high-risk", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "proposal-high-risk", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "mutate_proposal": {"recommendation": "safe_to_consider_scheduling"},
+    "expected_valid": false,
+    "expected_failure_contains": "approval artifact required"
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {"id":"adapter-local-file-pass","adapter":"local_file","source_ref":"input.txt","content":"ordinary source content\n","terminal_state":"manual_pass"},
+  {"id":"adapter-local-repo-pass","adapter":"local_repo","source_ref":".","terminal_state":"manual_pass"},
+  {"id":"adapter-fake-url-pass","adapter":"fake_url","source_ref":"https://example.invalid/read-only","terminal_state":"manual_pass"},
+  {"id":"adapter-fake-drive-auth-block","adapter":"fake_drive_doc","source_ref":"doc-1","expect_blocked":true,"missing_access":"fake_drive_doc:auth"},
+  {"id":"adapter-fake-drive-pass","adapter":"fake_drive_doc","source_ref":"doc-2","auth_available":true,"terminal_state":"blocked"},
+  {"id":"adapter-fake-gmail-pass","adapter":"fake_gmail_thread","source_ref":"thread-1","auth_available":true,"terminal_state":"fix_then_rerun"},
+  {"id":"adapter-fake-slack-pass","adapter":"fake_slack_thread","source_ref":"thread-2","auth_available":true,"terminal_state":"no_op"}
+]

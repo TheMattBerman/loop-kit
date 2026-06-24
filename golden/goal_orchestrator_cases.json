@@ -1,0 +1,119 @@
+[
+  {
+    "id": "goal-001-clean-pass",
+    "objective": "Build a local agentic operating loop that creates worker and reviewer packets, parses reports, and generates next goals until the objective is complete.",
+    "success_criteria": [
+      "agentic operating loop creates worker and reviewer packets",
+      "agentic operating loop parses reports",
+      "agentic operating loop generates next goals",
+      "original objective is complete"
+    ],
+    "result_report": "## Result\npass\n## Evidence\nagentic operating loop creates worker and reviewer packets. agentic operating loop parses reports. agentic operating loop generates next goals. original objective is complete. doctor passed.",
+    "expected_verdict": "pass",
+    "expect_next_goal": false
+  },
+  {
+    "id": "goal-002-partial-needs-next",
+    "objective": "Build the iterative build review next-goal loop for a repo implementation.",
+    "success_criteria": [
+      "iterative build review next-goal loop creates worker packet",
+      "iterative build review next-goal loop creates reviewer packet",
+      "iterative build review next-goal loop parses partial reports"
+    ],
+    "result_report": "## Result\npartial\n## Evidence\nworker packet exists. reviewer packet is missing. partial report parsing was not tested.",
+    "expected_verdict": "needs_fix",
+    "expect_next_goal": true,
+    "expected_failure_contains": "worker result is partial"
+  },
+  {
+    "id": "goal-003-fail-needs-next",
+    "objective": "Create an evaluator that refuses completion when report evidence is missing.",
+    "success_criteria": [
+      "evaluator refuses completion",
+      "report evidence is missing",
+      "next goal names missing evidence"
+    ],
+    "result_report": "## Result\nfail\n## Evidence\nNo artifacts were produced.",
+    "expected_verdict": "needs_fix",
+    "expect_next_goal": true,
+    "expected_failure_contains": "worker result is fail"
+  },
+  {
+    "id": "goal-004-blocked-needs-next",
+    "objective": "Run a worker reviewer loop until connector access evidence is available.",
+    "success_criteria": [
+      "worker reviewer loop runs",
+      "connector access evidence is available",
+      "blocked state names missing connector access"
+    ],
+    "result_report": "## Result\nblocked\n## Evidence\nworker reviewer loop started. Missing connector access evidence.",
+    "expected_verdict": "blocked",
+    "expect_next_goal": true,
+    "expected_failure_contains": "worker result is blocked",
+    "fixture_type": "connector"
+  },
+  {
+    "id": "goal-005-drift-smaller-subtask",
+    "objective": "Build the full planner worker evaluator next-goal shuttle for Loop Kit.",
+    "success_criteria": [
+      "full planner worker evaluator next-goal shuttle exists",
+      "Loop Kit original objective is preserved",
+      "next-goal shuttle runs until original objective is complete"
+    ],
+    "result_report": "## Result\npass\n## Evidence\nplanner prompt was drafted. doctor passed.",
+    "expected_verdict": "needs_fix",
+    "expect_next_goal": true,
+    "expected_failure_contains": "original objective not fully evidenced",
+    "fixture_type": "drift"
+  },
+  {
+    "id": "goal-006-drift-narrow-release",
+    "objective": "Turn Loop Kit into an agentic operating loop that plans work, reviews evidence, and writes the next goal automatically.",
+    "success_criteria": [
+      "agentic operating loop plans work",
+      "agentic operating loop reviews evidence",
+      "agentic operating loop writes the next goal automatically"
+    ],
+    "result_report": "## Result\npass\n## Evidence\nrelease notes were updated. install dry-run passed.",
+    "expected_verdict": "needs_fix",
+    "expect_next_goal": true,
+    "expected_failure_contains": "original objective not fully evidenced",
+    "fixture_type": "drift"
+  },
+  {
+    "id": "goal-007-scheduler-owned-by-user",
+    "objective": "Help a user prepare a recurring schedule for a proven loop without Loop Kit installing the scheduler.",
+    "success_criteria": [
+      "recurring schedule setup remains user-owned",
+      "Loop Kit gives evidence requirements",
+      "Loop Kit does not install schedules"
+    ],
+    "result_report": "## Result\npartial\n## Evidence\nschedule readiness checklist exists, but user-owned scheduler instructions are missing.",
+    "expected_verdict": "needs_fix",
+    "expect_next_goal": true,
+    "fixture_type": "scheduler",
+    "expected_setup_contains": "User-owned scheduler setup"
+  },
+  {
+    "id": "goal-008-connector-owned-by-user",
+    "objective": "Help a user connect Gmail read-only evidence without Loop Kit secretly authorizing the connector.",
+    "success_criteria": [
+      "Gmail connector setup remains user-owned",
+      "read-only evidence requirements are named",
+      "Loop Kit does not secretly authorize tools"
+    ],
+    "result_report": "## Result\npartial\n## Evidence\nread-only evidence checklist exists, but connector authorization instructions are missing.",
+    "expected_verdict": "needs_fix",
+    "expect_next_goal": true,
+    "fixture_type": "connector",
+    "expected_setup_contains": "User-owned connector setup"
+  },
+  {
+    "id": "goal-009-vague-goal-to-criteria",
+    "objective": "Make this project less manual.",
+    "result_report": "## Result\npartial\n## Evidence\nA worker note exists, but no full operating loop has been proven.",
+    "expected_verdict": "needs_fix",
+    "expect_next_goal": true,
+    "fixture_type": "vague"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "missing-source",
+    "spec": {"done_criteria": "All rows have status", "verification_method": "Check JSON field status", "approval_boundary": "No outside changes", "hard_stops": "Stop after 10 rows", "no_op_condition": "No rows", "output_packet": "Summary", "first_manual_dry_run": "Required"},
+    "expected_missing": ["source_of_truth"]
+  },
+  {
+    "id": "vague-done",
+    "spec": {"source_of_truth": "input.csv", "done_criteria": "make it better", "verification_method": "Check JSON field status", "approval_boundary": "No outside changes", "hard_stops": "Stop after 10 rows", "no_op_condition": "No rows", "output_packet": "Summary", "first_manual_dry_run": "Required"},
+    "expected_vague": ["done_criteria"]
+  },
+  {
+    "id": "missing-verifier",
+    "spec": {"source_of_truth": "folder of drafts", "done_criteria": "Every draft receives approve/fix/reject", "approval_boundary": "No publishing", "hard_stops": "Stop after 5 drafts", "no_op_condition": "No drafts", "output_packet": "Review packet", "first_manual_dry_run": "Required"},
+    "expected_missing": ["verification_method"]
+  },
+  {
+    "id": "missing-approval-boundary",
+    "spec": {"source_of_truth": "release notes", "done_criteria": "One changelog exists for each merged item", "verification_method": "File exists check", "hard_stops": "Stop after one release", "no_op_condition": "No merged items", "output_packet": "Changelog draft", "first_manual_dry_run": "Required"},
+    "expected_missing": ["approval_boundary"]
+  },
+  {
+    "id": "missing-no-op",
+    "spec": {"source_of_truth": "support inbox export", "done_criteria": "Every ticket is classified", "verification_method": "JSON field exists for ticket.category", "approval_boundary": "No replies sent", "hard_stops": "Stop after 20 tickets", "output_packet": "Triage packet", "first_manual_dry_run": "Required"},
+    "expected_missing": ["no_op_condition"]
+  },
+  {
+    "id": "missing-dry-run",
+    "spec": {"source_of_truth": "metrics.json", "done_criteria": "Metric delta table has one row per metric", "verification_method": "JSON field check for metrics", "approval_boundary": "No posting", "hard_stops": "Stop after 30 seconds", "no_op_condition": "No metric changes", "output_packet": "Delta packet"},
+    "expected_missing": ["first_manual_dry_run"]
+  },
+  {
+    "id": "external-missing-expanded",
+    "spec": {"risk": "R3", "maturity": "L3", "source_of_truth": "draft queue", "done_criteria": "Every draft has approve/fix/reject", "verification_method": "JSON field check for verdict", "approval_boundary": "Publishing requires approval", "hard_stops": "Stop after 3 drafts", "no_op_condition": "No drafts", "output_packet": "Review packet", "first_manual_dry_run": "Completed"},
+    "expected_missing": ["tools_and_permissions", "state_location", "run_artifacts", "maker_checker_split", "schedule_decision", "approval_artifact"]
+  },
+  {
+    "id": "subjective-missing-checker",
+    "spec": {"risk": "R4", "maturity": "L4", "scope": "customer production", "source_of_truth": "asset folder", "done_criteria": "Each asset has a score above 8 by rubric", "verification_method": "JSON field check for score", "approval_boundary": "No customer-facing update without approval", "hard_stops": "Stop after 5 assets", "no_op_condition": "No new assets", "output_packet": "Asset score packet", "first_manual_dry_run": "Completed", "tools_and_permissions": "Read files only", "state_location": ".loop-kit/STATE.md", "run_artifacts": "scores.json", "schedule_decision": "safe to consider only after manual pass", "approval_artifact": "approval-request.yaml"},
+    "expected_missing": ["maker_checker_split"]
+  }
+]

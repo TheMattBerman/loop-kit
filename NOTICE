@@ -1,0 +1,29 @@
+loop-kit
+Copyright 2026 loop-kit contributors
+
+This software is distributed under the MIT License. See LICENSE for details.
+
+---
+
+Third-party attributions
+
+This project indexes patterns from the following public sources. No prompt bodies,
+verification text, or proprietary content have been reproduced. Only titles, slugs,
+public URLs, and original commentary written by loop-kit contributors are included.
+
+Forward Future Loop Library
+  Publisher: Forward Future
+  URL: https://signals.forwardfuture.ai/loop-library/
+  License: Not specified; content accessed under fair-use indexing terms.
+  This project is not affiliated with, endorsed by, or associated with Forward Future
+  or the Matthew Berman who produces it; that is a different person.
+
+Anthropic "Building effective agents"
+  Publisher: Anthropic
+  URL: https://www.anthropic.com/research/building-effective-agents
+  License: Content used for reference and indexing only.
+
+LangGraph / LangChain AI
+  Publisher: LangChain AI
+  URL: https://langchain-ai.github.io/langgraph/
+  License: MIT (LangGraph source); documentation used for reference and indexing only.

@@ -1,0 +1,96 @@
+[
+  {
+    "id": "weak-loop-missing-hard-stop",
+    "kind": "spec",
+    "expect_pass": false,
+    "spec": {
+      "source_of_truth": "input.json",
+      "done_criteria": "Every item has a status field",
+      "verification_method": "JSON field check for item.status",
+      "approval_boundary": "No external actions",
+      "no_op_condition": "No input items",
+      "output_packet": "status packet",
+      "first_manual_dry_run": "required"
+    }
+  },
+  {
+    "id": "external-action-without-approval",
+    "kind": "runtime_close",
+    "expect_pass": false,
+    "must_not_emit": ["scheduled"],
+    "input": {
+      "terminal_state": "manual_pass",
+      "evidence": ["ev-1"],
+      "verifier_results": [{"passed": true}],
+      "actions": ["publish summary"]
+    }
+  },
+  {
+    "id": "first-run-checkpoint-no-op",
+    "kind": "runtime_close",
+    "expect_pass": true,
+    "must_not_emit": ["scheduled"],
+    "input": {
+      "terminal_state": "no_op",
+      "no_op_reason": "No new source rows",
+      "actions": []
+    }
+  },
+  {
+    "id": "manual-pass-without-evidence",
+    "kind": "runtime_close",
+    "expect_pass": false,
+    "must_not_emit": ["scheduled"],
+    "input": {
+      "terminal_state": "manual_pass",
+      "verifier_results": [{"passed": true}],
+      "actions": []
+    }
+  },
+  {
+    "id": "l3-schedule-without-manual-dry-run",
+    "kind": "spec",
+    "expect_pass": false,
+    "spec": {
+      "risk": "R3",
+      "maturity": "L3",
+      "source_of_truth": "draft queue",
+      "done_criteria": "Each draft receives a verdict field",
+      "verification_method": "JSON field check for verdict",
+      "approval_boundary": "Posting requires approval",
+      "hard_stops": "Stop after 3 drafts",
+      "no_op_condition": "No drafts",
+      "output_packet": "review packet",
+      "tools_and_permissions": "read queue, draft only",
+      "state_location": ".loop-kit/STATE.md",
+      "run_artifacts": "review.json",
+      "maker_checker_split": "writer and reviewer differ",
+      "schedule_decision": "safe to consider only after manual pass",
+      "approval_artifact": "approval-request.yaml"
+    }
+  },
+  {
+    "id": "maker-checker-same-actor-consequential",
+    "kind": "review_gate",
+    "expect_pass": false,
+    "packet": {
+      "maker": "operator",
+      "checker": "operator",
+      "consequential": true,
+      "evidence_refs": ["ev-1"],
+      "checker_output": "ev-1 supports the result"
+    }
+  },
+  {
+    "id": "scheduled-never-emitted",
+    "kind": "runtime_close",
+    "expect_pass": false,
+    "must_not_emit": ["scheduled"],
+    "input": {
+      "terminal_state": "manual_pass",
+      "evidence": ["ev-1"],
+      "verifier_results": [{"passed": true}],
+      "schedule_recommendation": "scheduled"
+    }
+  }
+]

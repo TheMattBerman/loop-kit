@@ -1,0 +1,61 @@
+[
+  {
+    "id": "rec-001-clean-cadence",
+    "proposal": {"proposal_id": "proposal-clean", "loop_id": "loop-clean", "recommendation": "safe_to_consider_scheduling", "evidence_window": {"run_count": 3, "evidence_ids": ["ev-a", "ev-b", "ev-c"], "source_snapshot_ids": ["snap-a"]}, "successful_supervised_run_count": 3, "acceptance_rate": 1.0, "failure_rate": 0.0, "owner": "operator", "review_cadence": "weekly", "monitor_plan": "local ledger review", "stop_condition": "pause on verifier failure", "rollback_no_op_behavior": {"rollback_plan": "restore last accepted local output", "no_op_behavior": "write no_op proof"}, "budget_cost_guard": "pause above 5 minutes", "approval_requirement": {"required": false, "approval_artifact_id": "", "maker_checker_review_passed": false}, "expires_at": "2026-07-01T00:00:00+00:00", "creates_schedule": false},
+    "runs": [
+      {"run_id": "run-1", "loop_id": "loop-clean", "cadence_tick": "tick-1", "terminal_state": "manual_pass", "evidence_ids": ["ev-1"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-2", "loop_id": "loop-clean", "cadence_tick": "tick-2", "terminal_state": "manual_pass", "evidence_ids": ["ev-2"], "runtime_seconds": 11, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-3", "loop_id": "loop-clean", "cadence_tick": "tick-3", "terminal_state": "manual_pass", "evidence_ids": ["ev-3"], "runtime_seconds": 9, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-4", "loop_id": "loop-clean", "cadence_tick": "tick-4", "terminal_state": "no_op", "evidence_ids": ["ev-4"], "runtime_seconds": 8, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"}
+    ],
+    "expected_final_status": "active"
+  },
+  {
+    "id": "rec-002-pause-on-failure",
+    "proposal": {"proposal_id": "proposal-failure", "loop_id": "loop-failure", "recommendation": "safe_to_consider_scheduling", "evidence_window": {"run_count": 3, "evidence_ids": ["ev-a", "ev-b", "ev-c"], "source_snapshot_ids": ["snap-a"]}, "successful_supervised_run_count": 3, "acceptance_rate": 1.0, "failure_rate": 0.0, "owner": "operator", "review_cadence": "weekly", "monitor_plan": "local ledger review", "stop_condition": "pause on verifier failure", "rollback_no_op_behavior": {"rollback_plan": "restore last accepted local output", "no_op_behavior": "write no_op proof"}, "budget_cost_guard": "pause above 5 minutes", "approval_requirement": {"required": false, "approval_artifact_id": "", "maker_checker_review_passed": false}, "expires_at": "2026-07-01T00:00:00+00:00", "creates_schedule": false},
+    "runs": [
+      {"run_id": "run-1", "loop_id": "loop-failure", "cadence_tick": "tick-1", "terminal_state": "manual_pass", "evidence_ids": ["ev-1"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-2", "loop_id": "loop-failure", "cadence_tick": "tick-2", "terminal_state": "failed_verification", "evidence_ids": ["ev-2"], "runtime_seconds": 12, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-3", "loop_id": "loop-failure", "cadence_tick": "tick-3", "terminal_state": "manual_pass", "evidence_ids": ["ev-3"], "runtime_seconds": 8, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-4", "loop_id": "loop-failure", "cadence_tick": "tick-4", "terminal_state": "manual_pass", "evidence_ids": ["ev-4"], "runtime_seconds": 8, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"}
+    ],
+    "expected_final_status": "paused",
+    "expected_pause_contains": "terminal state requires pause:failed_verification"
+  },
+  {
+    "id": "rec-003-pause-on-drift",
+    "proposal": {"proposal_id": "proposal-drift", "loop_id": "loop-drift", "recommendation": "safe_to_consider_scheduling", "evidence_window": {"run_count": 3, "evidence_ids": ["ev-a", "ev-b", "ev-c"], "source_snapshot_ids": ["snap-a"]}, "successful_supervised_run_count": 3, "acceptance_rate": 1.0, "failure_rate": 0.0, "owner": "operator", "review_cadence": "weekly", "monitor_plan": "local ledger review", "stop_condition": "pause on source drift", "rollback_no_op_behavior": {"rollback_plan": "restore last accepted local output", "no_op_behavior": "write no_op proof"}, "budget_cost_guard": "pause above 5 minutes", "approval_requirement": {"required": false, "approval_artifact_id": "", "maker_checker_review_passed": false}, "expires_at": "2026-07-01T00:00:00+00:00", "creates_schedule": false},
+    "runs": [
+      {"run_id": "run-1", "loop_id": "loop-drift", "cadence_tick": "tick-1", "terminal_state": "manual_pass", "evidence_ids": ["ev-1"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-2", "loop_id": "loop-drift", "cadence_tick": "tick-2", "terminal_state": "manual_pass", "evidence_ids": ["ev-2"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": true, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-3", "loop_id": "loop-drift", "cadence_tick": "tick-3", "terminal_state": "manual_pass", "evidence_ids": ["ev-3"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-4", "loop_id": "loop-drift", "cadence_tick": "tick-4", "terminal_state": "manual_pass", "evidence_ids": ["ev-4"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"}
+    ],
+    "expected_final_status": "paused",
+    "expected_pause_contains": "source drift detected"
+  },
+  {
+    "id": "rec-004-pause-on-missing-approval",
+    "proposal": {"proposal_id": "proposal-approval", "loop_id": "loop-approval", "recommendation": "safe_to_consider_scheduling", "evidence_window": {"run_count": 3, "evidence_ids": ["ev-a", "ev-b", "ev-c"], "source_snapshot_ids": ["snap-a"]}, "successful_supervised_run_count": 3, "acceptance_rate": 1.0, "failure_rate": 0.0, "owner": "operator", "review_cadence": "weekly", "monitor_plan": "local ledger review", "stop_condition": "pause on missing approval", "rollback_no_op_behavior": {"rollback_plan": "restore last accepted local output", "no_op_behavior": "write no_op proof"}, "budget_cost_guard": "pause above 5 minutes", "approval_requirement": {"required": true, "approval_artifact_id": "approval-1", "maker_checker_review_passed": true}, "expires_at": "2026-07-01T00:00:00+00:00", "creates_schedule": false},
+    "runs": [
+      {"run_id": "run-1", "loop_id": "loop-approval", "cadence_tick": "tick-1", "terminal_state": "manual_pass", "evidence_ids": ["ev-1"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": true, "approval_artifact_id": "approval-1", "budget_status": "ok"},
+      {"run_id": "run-2", "loop_id": "loop-approval", "cadence_tick": "tick-2", "terminal_state": "approval_required", "evidence_ids": ["ev-2"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": true, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-3", "loop_id": "loop-approval", "cadence_tick": "tick-3", "terminal_state": "manual_pass", "evidence_ids": ["ev-3"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": true, "approval_artifact_id": "approval-3", "budget_status": "ok"},
+      {"run_id": "run-4", "loop_id": "loop-approval", "cadence_tick": "tick-4", "terminal_state": "manual_pass", "evidence_ids": ["ev-4"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": true, "approval_artifact_id": "approval-4", "budget_status": "ok"}
+    ],
+    "expected_final_status": "paused",
+    "expected_pause_contains": "missing approval artifact"
+  },
+  {
+    "id": "rec-005-budget-and-runtime",
+    "proposal": {"proposal_id": "proposal-budget", "loop_id": "loop-budget", "recommendation": "safe_to_consider_scheduling", "evidence_window": {"run_count": 3, "evidence_ids": ["ev-a", "ev-b", "ev-c"], "source_snapshot_ids": ["snap-a"]}, "successful_supervised_run_count": 3, "acceptance_rate": 1.0, "failure_rate": 0.0, "owner": "operator", "review_cadence": "weekly", "monitor_plan": "local ledger review", "stop_condition": "pause on budget or runtime breach", "rollback_no_op_behavior": {"rollback_plan": "restore last accepted local output", "no_op_behavior": "write no_op proof"}, "budget_cost_guard": "pause above 20 seconds", "approval_requirement": {"required": false, "approval_artifact_id": "", "maker_checker_review_passed": false}, "expires_at": "2026-07-01T00:00:00+00:00", "creates_schedule": false},
+    "runs": [
+      {"run_id": "run-1", "loop_id": "loop-budget", "cadence_tick": "tick-1", "terminal_state": "manual_pass", "evidence_ids": ["ev-1"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-2", "loop_id": "loop-budget", "cadence_tick": "tick-2", "terminal_state": "manual_pass", "evidence_ids": ["ev-2"], "runtime_seconds": 25, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "over_budget"},
+      {"run_id": "run-3", "loop_id": "loop-budget", "cadence_tick": "tick-3", "terminal_state": "manual_pass", "evidence_ids": ["ev-3"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"},
+      {"run_id": "run-4", "loop_id": "loop-budget", "cadence_tick": "tick-4", "terminal_state": "manual_pass", "evidence_ids": ["ev-4"], "runtime_seconds": 10, "source_available": true, "source_drift_detected": false, "approval_required": false, "approval_artifact_id": "", "budget_status": "ok"}
+    ],
+    "expected_final_status": "paused",
+    "expected_pause_contains": "budget breach"
+  }
+]

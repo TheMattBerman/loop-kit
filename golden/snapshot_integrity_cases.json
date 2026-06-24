@@ -1,0 +1,6 @@
+[
+  {"id":"snap-01","initial":"alpha\nbeta\n","current":"alpha\nbeta\n","expected_terminal_state":"manual_pass"},
+  {"id":"snap-02","initial":"alpha\nbeta\n","current":"alpha\nchanged\n","expected_terminal_state":"fix_then_rerun"},
+  {"id":"snap-03","initial":"ordinary source\n","current":"ordinary source\nextra\n","expected_terminal_state":"fix_then_rerun"},
+  {"id":"snap-04","initial":"single line\n","current":"single line\n","expected_terminal_state":"manual_pass"}
+]

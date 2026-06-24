@@ -1,0 +1,26 @@
+[
+  {
+    "id": "price-check",
+    "input": "have AI check competitor prices every morning and tell me what changed"
+  },
+  {
+    "id": "draft-review",
+    "input": "review my blog drafts before they publish"
+  },
+  {
+    "id": "unsafe-publish",
+    "input": "publish my posts automatically until they look good"
+  },
+  {
+    "id": "email-summary",
+    "input": "summarize my unread emails every afternoon"
+  },
+  {
+    "id": "feedback-learning",
+    "input": "turn my repeated feedback corrections into reusable writing rules"
+  },
+  {
+    "id": "repo-verification",
+    "input": "check my repo tests every morning and tell me what failed"
+  }
+]

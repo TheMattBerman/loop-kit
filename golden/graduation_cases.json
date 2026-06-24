@@ -1,0 +1,146 @@
+[
+  {
+    "id": "grad-001-ready-medium",
+    "profile": {"loop_id": "loop-ready-medium", "risk_level": "medium", "read_only": false, "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause after any failed verifier", "rollback_plan": "restore previous approved artifact", "no_op_behavior": "write no_op reason and source proof", "review_cadence": "weekly", "monitor_plan": "local ledger review only", "budget_cost_guard": "pause above 10 minutes", "maker_checker_review_passed": true},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "loop-ready-medium", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"], "reviewer": "reviewer", "checker": "checker", "observed_at": "2026-06-01T00:00:00+00:00"},
+      {"run_id": "run-2", "loop_id": "loop-ready-medium", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"], "reviewer": "reviewer", "checker": "checker", "observed_at": "2026-06-02T00:00:00+00:00"},
+      {"run_id": "run-3", "loop_id": "loop-ready-medium", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"], "reviewer": "reviewer", "checker": "checker", "observed_at": "2026-06-03T00:00:00+00:00"}
+    ],
+    "cost_records": [
+      {"run_id": "run-1", "loop_id": "loop-ready-medium", "runtime_seconds": 30, "cost_estimate": "unknown", "budget_status": "ok", "observed_at": "2026-06-01T00:00:00+00:00"},
+      {"run_id": "run-2", "loop_id": "loop-ready-medium", "runtime_seconds": 32, "cost_estimate": "unknown", "budget_status": "ok", "observed_at": "2026-06-02T00:00:00+00:00"},
+      {"run_id": "run-3", "loop_id": "loop-ready-medium", "runtime_seconds": 29, "cost_estimate": "unknown", "budget_status": "ok", "observed_at": "2026-06-03T00:00:00+00:00"}
+    ],
+    "expected_eligible": true
+  },
+  {
+    "id": "grad-002-one-weak-run",
+    "profile": {"loop_id": "loop-one-run", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on failure", "rollback_plan": "restore previous", "no_op_behavior": "write no_op proof", "budget_cost_guard": "pause above limit"},
+    "acceptance_records": [{"run_id": "run-1", "loop_id": "loop-one-run", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]}],
+    "cost_records": [{"run_id": "run-1", "loop_id": "loop-one-run", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "expected_eligible": false,
+    "expected_failure_contains": "insufficient supervised successful runs"
+  },
+  {
+    "id": "grad-003-low-acceptance",
+    "profile": {"loop_id": "loop-low-acceptance", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on rejection", "rollback_plan": "restore previous", "no_op_behavior": "write no_op proof", "budget_cost_guard": "pause above limit"},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "loop-low-acceptance", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "loop-low-acceptance", "terminal_state": "manual_pass", "accepted": false, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "loop-low-acceptance", "terminal_state": "manual_pass", "accepted": false, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "loop-low-acceptance", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "expected_eligible": false,
+    "expected_failure_contains": "acceptance rate below threshold"
+  },
+  {
+    "id": "grad-004-missing-rollback",
+    "profile": {"loop_id": "loop-no-rollback", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on failure", "rollback_plan": "", "no_op_behavior": "", "budget_cost_guard": "pause above limit"},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "loop-no-rollback", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "loop-no-rollback", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "loop-no-rollback", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "loop-no-rollback", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "expected_eligible": false,
+    "expected_failure_contains": "missing rollback/no-op behavior"
+  },
+  {
+    "id": "grad-005-high-risk-no-review",
+    "profile": {"loop_id": "loop-high-risk", "risk_level": "high", "external_actions": true, "approval_artifact_id": "approval-1", "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on failure", "rollback_plan": "restore previous", "no_op_behavior": "write no_op proof", "budget_cost_guard": "pause above limit", "maker_checker_review_passed": false},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "loop-high-risk", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "loop-high-risk", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "loop-high-risk", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "loop-high-risk", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "expected_eligible": false,
+    "expected_failure_contains": "high-risk graduation requires maker/checker review"
+  },
+  {
+    "id": "grad-006-missing-owner",
+    "profile": {"loop_id": "loop-no-owner", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "", "stop_condition": "pause on failure", "rollback_plan": "restore previous", "no_op_behavior": "write no_op proof", "budget_cost_guard": "pause above limit"},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "loop-no-owner", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "loop-no-owner", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "loop-no-owner", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "loop-no-owner", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "expected_eligible": false,
+    "expected_failure_contains": "missing owner"
+  },
+  {
+    "id": "grad-007-missing-stop",
+    "profile": {"loop_id": "loop-no-stop", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "", "rollback_plan": "restore previous", "no_op_behavior": "write no_op proof", "budget_cost_guard": "pause above limit"},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "loop-no-stop", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "loop-no-stop", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "loop-no-stop", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "loop-no-stop", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "expected_eligible": false,
+    "expected_failure_contains": "missing stop condition"
+  },
+  {
+    "id": "grad-008-source-drift",
+    "profile": {"loop_id": "loop-drift", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "source_drift_detected": true, "owner": "operator", "stop_condition": "pause on drift", "rollback_plan": "restore previous", "no_op_behavior": "write no_op proof", "budget_cost_guard": "pause above limit"},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "loop-drift", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "loop-drift", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "loop-drift", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "loop-drift", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "expected_eligible": false,
+    "expected_failure_contains": "source drift detected"
+  },
+  {
+    "id": "grad-009-unstable-cost",
+    "profile": {"loop_id": "loop-cost", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on budget breach", "rollback_plan": "restore previous", "no_op_behavior": "write no_op proof", "budget_cost_guard": "pause above limit"},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "loop-cost", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "loop-cost", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "loop-cost", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "loop-cost", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "over_budget"}],
+    "expected_eligible": false,
+    "expected_failure_contains": "unstable cost"
+  },
+  {
+    "id": "grad-010-missing-evidence",
+    "profile": {"loop_id": "loop-no-evidence", "risk_level": "medium", "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on failure", "rollback_plan": "restore previous", "no_op_behavior": "write no_op proof", "budget_cost_guard": "pause above limit"},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "loop-no-evidence", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": []},
+      {"run_id": "run-2", "loop_id": "loop-no-evidence", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "loop-no-evidence", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "loop-no-evidence", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "expected_eligible": false,
+    "expected_failure_contains": "missing evidence"
+  },
+  {
+    "id": "grad-011-external-no-approval",
+    "profile": {"loop_id": "loop-external", "risk_level": "high", "external_actions": true, "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on failure", "rollback_plan": "restore previous", "no_op_behavior": "write no_op proof", "budget_cost_guard": "pause above limit", "maker_checker_review_passed": true},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "loop-external", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "loop-external", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]},
+      {"run_id": "run-3", "loop_id": "loop-external", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-3"]}
+    ],
+    "cost_records": [{"run_id": "run-1", "loop_id": "loop-external", "runtime_seconds": 20, "cost_estimate": "unknown", "budget_status": "ok"}],
+    "expected_eligible": false,
+    "expected_failure_contains": "external-action proposal requires approval artifact"
+  },
+  {
+    "id": "grad-012-low-risk-read-only-two-runs",
+    "profile": {"loop_id": "loop-low-readonly", "risk_level": "low", "read_only": true, "source_snapshot_ids": ["snap-1"], "owner": "operator", "stop_condition": "pause on verifier failure", "rollback_plan": "restore previous local output", "no_op_behavior": "write no_op reason and source proof", "review_cadence": "weekly", "monitor_plan": "local ledger review only", "budget_cost_guard": "pause above 5 minutes"},
+    "acceptance_records": [
+      {"run_id": "run-1", "loop_id": "loop-low-readonly", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-1"]},
+      {"run_id": "run-2", "loop_id": "loop-low-readonly", "terminal_state": "manual_pass", "accepted": true, "evidence_ids": ["ev-2"]}
+    ],
+    "cost_records": [
+      {"run_id": "run-1", "loop_id": "loop-low-readonly", "runtime_seconds": 12, "cost_estimate": "unknown", "budget_status": "ok"},
+      {"run_id": "run-2", "loop_id": "loop-low-readonly", "runtime_seconds": 14, "cost_estimate": "unknown", "budget_status": "ok"}
+    ],
+    "expected_eligible": true
+  }
+]
